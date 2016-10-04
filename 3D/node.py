@@ -7,16 +7,19 @@ from OpenGL.GL import glCallList, glColor3f, glMaterialfv, glMultMatrixf, glPopM
 import numpy
 from primtive import G_OBJ_SPHERE, G_OBJ_PLANE, G_OBJ_CUBE
 from transformation import scaling, translation
+from aabb import AABB
 
 
 class Node(object):
     def __init__(self):
         #
         self.color_index = random.randint(color.MIN_COLOR, color.MAX_COLOR)
-        #
+        self.aabb = AABB([0.0, 0.0, 0.0], [0.5, 0.5, 0.5])
+
         self.translation_matrix = numpy.identity(4)
         #
         self.scaling_matrix = numpy.identity(4)
+        self.selected = False
 
     def render(self):
         """ """
@@ -29,7 +32,13 @@ class Node(object):
         #
         glColor3f(cur_color[0], cur_color[1], cur_color[2])
         #
+        if self.selected:
+            glMaterialfv(GL_FRONT, GL_EMISSION, [0.3, 0.3, 0.3])
+
         self.render_self()
+        if self.selected:
+            glMaterialfv(GL_FRONT, GL_EMISSION, [0.0, 0.0, 0.0])
+
         glPopMatrix()
 
     def render_self(self):
@@ -42,6 +51,19 @@ class Node(object):
     def scale(self, s):
         self.scaling_matrix = numpy.dot(self.scaling_matrix, scaling([s, s, s]))
 
+    def select(self, select=None):
+        if select is not None:
+            self.selected = select
+        else:
+            self.selected = not self.selected
+
+    def pick(self, start, direction, mat):
+        newmat = numpy.dot(
+            numpy.dot(mat, self.translation_matrix),
+            numpy.linalg.inv(self.scaling_matrix)
+        )
+        results = self.aabb.ray_hit(start, direction, newmat)
+        return results
 
 class Primitive(Node):
     def __init__(self):

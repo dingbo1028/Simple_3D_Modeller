@@ -161,7 +161,8 @@ class Viewer(object):
     """ 回调函数 """
     def pick(self, x, y):
         """  """
-        pass
+        start, direction = self.get_ray(x, y)
+        self.scene.pick(start, direction, self.modelView)
 
     def move(self, x, y):
         """  """
@@ -180,7 +181,19 @@ class Viewer(object):
         """"""
         pass
 
+    def get_ray(self, x, y):
+        self.init_view()
 
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+
+        start = numpy.array(gluUnProject(x, y, 0.001))
+        end = numpy.array(gluUnProject(x, y, 0.999))
+
+        direction = end - start
+        direction = direction / norm(direction)
+
+        return (start, direction)
 
 if __name__ == "__main__":
     viewer = Viewer()
