@@ -21,6 +21,7 @@ import color
 from scene import Scene
 from primtive import init_primitives, G_OBJ_PLANE
 from node import Sphere, Cube, SnowFigure
+from interaction import Interaction
 
 
 class Viewer(object):
@@ -81,8 +82,13 @@ class Viewer(object):
         self.create_sample_scene()
 
     def init_interaction(self):
-        # 初始化交互操作相关的代码，之后实现
-        pass
+        # 初始化交互操作相关的代码
+        self.interaction = Interaction()
+        self.interaction.register_callback('pick', self.pick)
+        self.interaction.register_callback('move', self.move)
+        self.interaction.register_callback('place', self.place)
+        self.interaction.register_callback('rotate_color', self.rotate_color)
+        self.interaction.register_callback('scale', self.scale)
 
     def main_loop(self):
         # 程序主循环开始
@@ -100,6 +106,16 @@ class Viewer(object):
         glMatrixMode(GL_MODELVIEW)
         glPushMatrix()
         glLoadIdentity()
+        glMultMatrixf(self.interaction.trackball.matrix)
+
+        # 存储ModeView矩阵与其逆矩阵之后做坐标系用
+        currentModekView = numpy.array(glGetFloatv(GL_MODELVIEW_MATRIX))
+        self.modelView = numpy.transpose(currentModekView)
+        self.inverseModelView = inv(numpy.transpose(currentModekView))
+
+
+
+
 
         # 渲染场景
         self.scene.render()
@@ -141,6 +157,29 @@ class Viewer(object):
         hierarchical_node = SnowFigure()
         hierarchical_node.translate(-2, 0, -2)
         self.scene.add_node(hierarchical_node)
+
+    """ 回调函数 """
+    def pick(self, x, y):
+        """  """
+        pass
+
+    def move(self, x, y):
+        """  """
+        pass
+
+    def place(self, shape, x, y):
+        """"""
+
+        pass
+
+    def rotate_color(self, forward):
+        """"""
+        pass
+
+    def scale(self, up):
+        """"""
+        pass
+
 
 
 if __name__ == "__main__":
