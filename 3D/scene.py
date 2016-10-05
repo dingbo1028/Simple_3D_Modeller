@@ -1,5 +1,5 @@
 # coding=utf-8
-
+import numpy
 
 class Scene(object):
     # 放置节点的深度
@@ -39,3 +39,19 @@ class Scene(object):
             closest_node.depth = mindist
             closest_node.selected_loc = start + direction * mindist
             self.selected_node = closest_node
+
+    def move_selected(self, start, direction, inv_modelView):
+        if self.selected_node is None: return
+
+        node = self.selected_node
+        depth = node.depth
+        oldloc = node.selected_loc
+
+        newloc = (start + direction * depth)
+
+        translation = newloc - oldloc
+        pre_tran = numpy.array([translation[0], translation[1], translation[2], 0])
+        translation = inv_modelView.dot(pre_tran)
+
+        node.translate(translation[0], translation[1], translation[2])
+        node.selected_loc = newloc

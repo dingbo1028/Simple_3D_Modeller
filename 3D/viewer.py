@@ -166,7 +166,9 @@ class Viewer(object):
 
     def move(self, x, y):
         """  """
-        pass
+        start, direction = self.get_ray(x,y)
+        self.scene.move_selected(start, direction, self.inverseModelView)
+
 
     def place(self, shape, x, y):
         """"""
