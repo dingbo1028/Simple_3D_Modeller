@@ -1,5 +1,7 @@
 # coding=utf-8
 import numpy
+from node import Sphere, Cube, SnowFigure
+
 
 class Scene(object):
     # 放置节点的深度
@@ -40,6 +42,7 @@ class Scene(object):
             closest_node.selected_loc = start + direction * mindist
             self.selected_node = closest_node
 
+
     def move_selected(self, start, direction, inv_modelView):
         if self.selected_node is None: return
 
@@ -55,3 +58,23 @@ class Scene(object):
 
         node.translate(translation[0], translation[1], translation[2])
         node.selected_loc = newloc
+
+    def place(self, shape, start, direction, inv_modelview):
+        new_node = None
+        if shape == 'sphere':
+            new_node = Sphere()
+        elif shape == 'cube':
+            new_node = Cube()
+        elif shape == 'figure':
+            new_node = SnowFigure()
+
+        self.add_node(new_node)
+
+        # 得到在摄像机坐标系中的坐标
+        translation = (start + direction * self.PLACE_DEPTH)
+
+        # 转换到世界坐标
+        pre_tran = numpy.array([translation[0], translation[1], translation[2], 1])
+        translation = inv_modelview.dot(pre_tran)
+
+        new_node.translate(translation[0], translation[1], translation[2])

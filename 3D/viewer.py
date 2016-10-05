@@ -172,8 +172,9 @@ class Viewer(object):
 
     def place(self, shape, x, y):
         """"""
+        start, direction = self.get_ray(x, y)
+        self.scene.place(shape, start, direction, self.inverseModelView)
 
-        pass
 
     def rotate_color(self, forward):
         """"""
