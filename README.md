@@ -14,15 +14,15 @@ Windows x64 可能无法使用，原因可能是OpenGL的hult32.dll的问题，�
 
 功能：
 1、坐标轴系统和简单物体渲染：
- ![image](https://github.com/dingbo1028/Simple_3D_Modeller/image/normal.jpg)
+ ![image](https://github.com/dingbo1028/Simple_3D_Modeller/blob/master/image/normal.jpeg)
 2、trackball轨迹球旋转视口
- ![image](https://github.com/dingbo1028/Simple_3D_Modeller/image/trackball.jpg)
+ ![image](https://github.com/dingbo1028/Simple_3D_Modeller/blob/master/image/trackball.jpg)
 3、aabb包围盒pick节点
- ![image](https://github.com/dingbo1028/Simple_3D_Modeller/image/select.jpg)
+ ![image](https://github.com/dingbo1028/Simple_3D_Modeller/blob/master/image/select.jpg)
 4、move节点
- ![image](https://github.com/dingbo1028/Simple_3D_Modeller/image/move.jpg)
+ ![image](https://github.com/dingbo1028/Simple_3D_Modeller/blob/master/image/move.jpg)
 5、place新节点	
- ![image](https://github.com/dingbo1028/Simple_3D_Modeller/image/place.jpg)
+ ![image](https://github.com/dingbo1028/Simple_3D_Modeller/blob/master/image/place.jpg)
 
 
 目录结构：
